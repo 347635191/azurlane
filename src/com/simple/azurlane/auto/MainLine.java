@@ -26,19 +26,18 @@ public class MainLine {
         }
     }
 
+    static int z = Integer.parseInt(properties.getProperty("z"));
+    static int x1 = Integer.parseInt(properties.getProperty("x1"));
+    static int y1 = Integer.parseInt(properties.getProperty("y1"));
+    static int x2 = Integer.parseInt(properties.getProperty("x2")) / z;
+    static int y2 = Integer.parseInt(properties.getProperty("y2")) / z;
+    static List<String> rl = Arrays.asList(properties.getProperty("r").split(","));
+    static List<String> gl = Arrays.asList(properties.getProperty("g").split(","));
+    static List<String> bl = Arrays.asList(properties.getProperty("b").split(","));
+
     private static void autoWork() {
-        int z = Integer.parseInt(properties.getProperty("z"));
-        int x1 = Integer.parseInt(properties.getProperty("x1")) / z;
-        int y1 = Integer.parseInt(properties.getProperty("y1")) / z;
-        int x2 = Integer.parseInt(properties.getProperty("x2")) / z;
-        int y2 = Integer.parseInt(properties.getProperty("y2")) / z;
-
-        List<String> rl = Arrays.asList(properties.getProperty("r").split(","));
-        List<String> gl = Arrays.asList(properties.getProperty("g").split(","));
-        List<String> bl = Arrays.asList(properties.getProperty("b").split(","));
-
         Color pixelColor = robot.getPixelColor(x1, y1);
-        if (rl.contains(String.valueOf(pixelColor.getRed())) && gl.contains(String.valueOf(pixelColor.getGreen())) && bl.contains(String.valueOf(pixelColor.getBlue()))) {
+        if (validatePixelColor(rl, gl, bl, pixelColor)) {
             robot.mouseMove(x2, y2);
             robot.mousePress(KeyEvent.BUTTON1_MASK);
             robot.delay(200);
@@ -48,9 +47,18 @@ public class MainLine {
         }
     }
 
+    private static boolean validatePixelColor(List<String> rl, List<String> gl, List<String> bl, Color pixelColor) {
+        for (int i = 0; i < rl.size(); i++) {
+            if (String.valueOf(pixelColor.getRed()).equals(rl.get(i)) && String.valueOf(pixelColor.getGreen()).equals(gl.get(i)) && String.valueOf(pixelColor.getBlue()).equals(bl.get(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void start() {
         scheduledService = Executors.newScheduledThreadPool(1);
-        scheduledService.scheduleAtFixedRate(MainLine::autoWork, 0, 2, TimeUnit.SECONDS);
+        scheduledService.scheduleAtFixedRate(MainLine::autoWork, 0, 3, TimeUnit.SECONDS);
     }
 
     public static void stop() {
