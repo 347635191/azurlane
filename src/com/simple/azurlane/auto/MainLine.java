@@ -47,6 +47,11 @@ public class MainLine {
         }
     }
 
+    /**
+     * 校验一组颜色是否与之指定像素点颜色匹配
+     * @param pixelColor 像素点颜色
+     * @return true/false
+     */
     private static boolean validatePixelColor(List<String> rl, List<String> gl, List<String> bl, Color pixelColor) {
         for (int i = 0; i < rl.size(); i++) {
             if (String.valueOf(pixelColor.getRed()).equals(rl.get(i)) && String.valueOf(pixelColor.getGreen()).equals(gl.get(i)) && String.valueOf(pixelColor.getBlue()).equals(bl.get(i))) {

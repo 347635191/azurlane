@@ -9,7 +9,9 @@ import java.util.Objects;
 
 public class MainFrame {
     public MainFrame() {
+        //系统托盘
         SystemTray systemTray = SystemTray.getSystemTray();
+        //菜单栏
         PopupMenu pop = new PopupMenu();
         MenuItem control = new MenuItem("start");
         MenuItem exit = new MenuItem("exit");
