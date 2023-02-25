@@ -49,6 +49,7 @@ public class MainLine {
 
     /**
      * 校验一组颜色是否与之指定像素点颜色匹配
+     *
      * @param pixelColor 像素点颜色
      * @return true/false
      */
