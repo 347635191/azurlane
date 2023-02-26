@@ -25,11 +25,19 @@ public class MainLine {
 
     private static void autoWork() {
         // load config from cache
-        int z = PropertyUtil.getInt("z");
-        int x1 = PropertyUtil.getInt("x1");
-        int y1 = PropertyUtil.getInt("y1");
-        int x2 = PropertyUtil.getInt("x2") / z;
-        int y2 = PropertyUtil.getInt("y2") / z;
+        int x1;
+        int y1;
+        int x2;
+        int y2;
+        try {
+            int z = PropertyUtil.getInt("z");
+            x1 = PropertyUtil.getInt("x1");
+            y1 = PropertyUtil.getInt("y1");
+            x2 = PropertyUtil.getInt("x2") / z;
+            y2 = PropertyUtil.getInt("y2") / z;
+        } catch (NumberFormatException e) {
+            return;
+        }
         List<String> rl = Arrays.asList(PropertyUtil.getString("r").split(","));
         List<String> gl = Arrays.asList(PropertyUtil.getString("g").split(","));
         List<String> bl = Arrays.asList(PropertyUtil.getString("b").split(","));
@@ -45,7 +53,7 @@ public class MainLine {
         }
     }
 
-    public static Robot getRobot(){
+    public static Robot getRobot() {
         return robot;
     }
 
