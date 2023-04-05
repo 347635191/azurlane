@@ -95,19 +95,49 @@ public class ConfigFrame extends JFrame {
     }
 
     public void changeValue() {
-        String xText = x.getText();
-        String yText = y.getText();
-        String rText = r.getText();
-        String gText = g.getText();
-        String bText = b.getText();
+        String xText = x.getText().trim();
+        String yText = y.getText().trim();
+        String rText = r.getText().trim();
+        String gText = g.getText().trim();
+        String bText = b.getText().trim();
+        if(splitEqual(xText, yText)){
+            JOptionPane.showMessageDialog(null, "X,Y数量不一致");
+            return;
+        }
+        if(splitEqual(rText, gText, bText)){
+            JOptionPane.showMessageDialog(null, "R,G,B数量不一致");
+            return;
+        }
         if (!(x.getText().equals(PropertyUtil.getString("x1")) && y.getText().equals(PropertyUtil.getString("y1")) && r.getText().equals(PropertyUtil.getString("r")) && g.getText().equals(PropertyUtil.getString("g")) && b.getText().equals(PropertyUtil.getString("b")))) {
             Map<String, String> configMap = new HashMap<>(16);
-            configMap.put("x1", xText.trim());
-            configMap.put("y1", yText.trim());
-            configMap.put("r", rText.trim());
-            configMap.put("g", gText.trim());
-            configMap.put("b", bText.trim());
+            configMap.put("x1", xText);
+            configMap.put("y1", yText);
+            configMap.put("r", rText);
+            configMap.put("g", gText);
+            configMap.put("b", bText);
             PropertyUtil.alter(configMap);
         }
+    }
+
+    /**
+     * 按照英文逗号分割,检查数量是否一致
+     * @param str 输入
+     * @return 按照英文逗号分割，分割数是否不一致
+     */
+    private static boolean splitEqual(String... str) {
+        int preLen = -2;
+        for (String s : str) {
+            int nextLen;
+            if(s.length() == 0){
+                nextLen = -1;
+            }else{
+                nextLen = s.split(",").length;
+            }
+            if (nextLen != preLen &&  preLen != -2) {
+                return true;
+            }
+            preLen = nextLen;
+        }
+        return false;
     }
 }
